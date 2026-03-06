@@ -1,0 +1,18 @@
+venv/
+.env
+
+# Python & Pytest
+__pycache__/
+*.pyc
+.pytest_cache/
+.coverage
+
+# Archivos de datos locales
+*.csv
+*.parquet
+mis_clientes.csv
+
+# Directorios de Spark
+spark-warehouse/
+metastore_db/
+derby.log
