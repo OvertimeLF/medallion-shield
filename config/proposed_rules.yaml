@@ -1,0 +1,42 @@
+engine:
+  name: spark
+  version: '3.5'
+crypto:
+  kms:
+    provider: local
+    key_uri: local-dev-key
+  methods:
+  - name: rut_fpe
+    algorithm: FF1
+  - name: email_hash
+    algorithm: SHA-256
+recognizers:
+- name: chilean_rut
+  type: regex
+  pattern: \b\d{1,8}-[\dkK]\b
+  score: 0.8
+rules:
+- column: GORSDAV_TABLE_NAME
+  recognizer: location
+  anonymization: hash_sha256
+- column: GORSDAV_ATTR_NAME
+  recognizer: organization
+  anonymization: hash_sha256
+- column: GORSDAV_PK_PARENTTAB
+  recognizer: location
+  anonymization: hash_sha256
+- column: GORSDAV_ACTIVITY_DATE
+  recognizer: date_time
+  anonymization: hash_sha256
+- column: GORSDAV_USER_ID
+  recognizer: organization
+  anonymization: hash_sha256
+- column: GORSDAV_DATA_ORIGIN
+  recognizer: organization
+  anonymization: hash_sha256
+- column: GORSDAV_SURROGATE_ID
+  recognizer: location
+  anonymization: hash_sha256
+- column: GORSDAV_VALUE
+  recognizer: location
+  anonymization: hash_sha256

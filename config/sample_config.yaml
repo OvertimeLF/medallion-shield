@@ -1,0 +1,29 @@
+engine:
+  mode: "spark"
+  log_level: "INFO"
+
+crypto:
+  kms:
+    provider: "local"
+    key_uri: "local-dev-key"
+  methods:
+    - name: "rut_fpe"
+      algorithm: "FF1"
+      default_tweak: "global_tweak"
+    - name: "email_hash"
+      algorithm: "SHA-256"
+
+recognizers:
+  - name: "chilean_rut"
+    type: "regex"
+    pattern: "\\b\\d{1,8}-[\\dkK]\\b"
+    score: 0.8
+
+rules:
+  - column: "rut_cliente"
+    recognizer: "chilean_rut"
+    anonymization: "rut_fpe"
+    domain_tweak: "encuestas"
+  - column: "email"
+    recognizer: "email"
+    anonymization: "email_hash"

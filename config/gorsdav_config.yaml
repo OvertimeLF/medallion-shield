@@ -1,0 +1,31 @@
+engine:
+  name: "spark"
+  version: "3.5"
+
+crypto:
+  kms:
+    provider: "local"
+    key_uri: "local://dev/null"
+  methods:
+    - name: "hash_sha256"
+      algorithm: "SHA-256"
+    - name: "fpe_preservation"
+      algorithm: "FF1"
+
+recognizers:
+  - name: "custom_user"
+    type: "regex"
+    pattern: ".*"
+    score: 0.5
+
+rules:
+  # Ejemplo 1: Hashear el nombre de usuario (ej: ^ADMISION^ -> d8f3a...)
+  - column: "GORSDAV_USER_ID"
+    recognizer: "custom_user"
+    anonymization: "hash_sha256"
+    
+  # Ejemplo 2: Aplicar FPE sobre el PK_PARENTTAB guiado por TWEAK global
+  - column: "GORSDAV_PK_PARENTTAB"
+    recognizer: "custom_user"
+    anonymization: "fpe_preservation"
+    domain_tweak: "gorsdav_table_tweak"
